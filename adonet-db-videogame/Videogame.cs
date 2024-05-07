@@ -83,5 +83,32 @@ namespace adonet_db_videogame
             }
             return null;
         }
+        public static List<Videogame> SearchGamesByName(string searchName)
+        {
+            List<Videogame> games = new List<Videogame>();
+
+            string query = "SELECT * FROM videogames WHERE name LIKE @searchName";
+            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+            {
+                sqlConnection.Open();
+                SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                cmd.Parameters.AddWithValue("@searchName", "%" + searchName + "%");
+
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    Videogame game = new Videogame(
+                        reader["name"].ToString(),
+                        reader["overview"].ToString(),
+                        Convert.ToDateTime(reader["release_date"]),
+                        Convert.ToDateTime(reader["created_at"]),
+                        Convert.ToDateTime(reader["updated_at"]),
+                        (long)reader["software_house_id"]
+                    );
+                    games.Add(game);
+                }
+            }
+            return games;
+        }
     }
 }

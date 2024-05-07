@@ -9,6 +9,7 @@
                 Console.WriteLine("Menu:");
                 Console.WriteLine("1. Add a new videogame");
                 Console.WriteLine("2. Search a videogame by Id");
+                Console.WriteLine("3. Search for all the videogames with this word in their name");
                 Console.Write("Scelta: ");
                 string choice = Console.ReadLine();
 
@@ -19,6 +20,9 @@
                         break;
                     case "2":
                         SearchGameById();
+                        break;
+                    case "3":
+                        SearchGamesByName();
                         break;
 
                     default:
@@ -61,6 +65,25 @@
             else
             {
                 Console.WriteLine("Invalid ID.");
+            }
+        }
+        static void SearchGamesByName()
+        {
+            Console.Write("Inserisci una stringa di ricerca per il nome del videogioco: ");
+            string searchName = Console.ReadLine();
+
+            var games = VideogameManager.SearchGamesByName(searchName);
+            if (games.Count > 0)
+            {
+                Console.WriteLine("Videogiochi trovati:");
+                foreach (var game in games)
+                {
+                    Console.WriteLine($"Nome: {game.Name}");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Nessun videogioco trovato con il nome specificato.");
             }
         }
     }
