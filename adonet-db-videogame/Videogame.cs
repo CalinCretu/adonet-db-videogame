@@ -33,6 +33,7 @@ namespace adonet_db_videogame
         static void InsertVideogame( int id, string name, string overview, DateTime release_date, DateTime created_at, DateTime updated_at, int software_house_id)
         {
             Videogame NewVideogame = new Videogame(id, name, overview, release_date, created_at, updated_at, software_house_id);
+
         }
     }
 }
