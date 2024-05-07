@@ -110,5 +110,32 @@ namespace adonet_db_videogame
             }
             return games;
         }
+        public static void DeleteVideogame(int id)
+        {
+            string query = "DELETE FROM videogames WHERE id = @id";
+            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    sqlConnection.Open();
+                    SqlCommand cmd = new SqlCommand(query, sqlConnection);
+                    cmd.Parameters.AddWithValue("@id", id);
+
+                    int affectedRows = cmd.ExecuteNonQuery();
+                    if (affectedRows == 0)
+                    {
+                        Console.WriteLine("No videogames found with this Id.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Videogame successfully deleted.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("An error occured: " + ex.Message);
+                }
+            }
+        }
     }
 }

@@ -10,7 +10,9 @@
                 Console.WriteLine("1. Add a new videogame");
                 Console.WriteLine("2. Search a videogame by Id");
                 Console.WriteLine("3. Search for all the videogames with this word in their name");
-                Console.Write("Scelta: ");
+                Console.WriteLine("4. Delete a videogame");
+                Console.WriteLine("5. Quit");
+                Console.Write("\nChoice: ");
                 string choice = Console.ReadLine();
 
                 switch (choice)
@@ -24,9 +26,14 @@
                     case "3":
                         SearchGamesByName();
                         break;
-
+                    case "4":
+                        DeleteGame();
+                        break;
+                    case "5":
+                        Environment.Exit(0);
+                        break;
                     default:
-                        Console.WriteLine("Invalid choice. Try again!");
+                        Console.WriteLine("Invalid choice. Try again!\n");
                         break;
                 }
             }
@@ -34,7 +41,7 @@
 
         static void AddNewGame()
         {
-            Console.WriteLine("Add a new game to the library:");
+            Console.WriteLine("\nAdd a new game to the library:");
             Console.Write("Name: ");
             string name = Console.ReadLine();
 
@@ -42,11 +49,11 @@
             string overview = Console.ReadLine();
 
             VideogameManager.InsertVideogame(name, overview);
-            Console.WriteLine("New videogame added to library!");
+            Console.WriteLine("\nNew videogame added to library!    ***********\n");
         }
         static void SearchGameById()
         {
-            Console.Write("Search a videogame by its ID: ");
+            Console.Write("\nSearch a videogame by its ID: ");
             string inputId = Console.ReadLine();
             int id;
 
@@ -55,36 +62,47 @@
                 Videogame game = VideogameManager.GetVideogameById(id);
                 if (game != null)
                 {
-                    Console.WriteLine($"A videogame has been found: {game.Name}");
+                    Console.WriteLine($"\nA videogame has been found: {game.Name}\n");
                 }
                 else
                 {
-                    Console.WriteLine("No videogames has been found.");
+                    Console.WriteLine("\nNo videogames has been found.\n");
                 }
             }
             else
             {
-                Console.WriteLine("Invalid ID.");
+                Console.WriteLine("\nInvalid ID.\n");
             }
         }
         static void SearchGamesByName()
         {
-            Console.Write("Inserisci una stringa di ricerca per il nome del videogioco: ");
+            Console.Write("\nWrite the word you are looking for: ");
             string searchName = Console.ReadLine();
 
             var games = VideogameManager.SearchGamesByName(searchName);
             if (games.Count > 0)
             {
-                Console.WriteLine("Videogiochi trovati:");
+                Console.WriteLine("\nVidegames found:");
                 foreach (var game in games)
                 {
-                    Console.WriteLine($"Nome: {game.Name}");
+                    Console.WriteLine($"\nName: {game.Name}\n");
                 }
             }
             else
             {
-                Console.WriteLine("Nessun videogioco trovato con il nome specificato.");
+                Console.WriteLine("\nNo videogames has been found.\n");
             }
+        }
+        static void DeleteGame()
+        {
+            Console.Write("\nWrite the videogame Id you would like to delete: ");
+            if (!int.TryParse(Console.ReadLine(), out int id))
+            {
+                Console.WriteLine("\nInvalid Id.\n");
+                return;
+            }
+
+            VideogameManager.DeleteVideogame(id);
         }
     }
 }
